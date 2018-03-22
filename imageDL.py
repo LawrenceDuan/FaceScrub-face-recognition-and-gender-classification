@@ -13,10 +13,11 @@ from scipy.ndimage import filters
 import urllib
 
 
-act = list(set([a.split("\t")[0] for a in open("subset_actors.txt").readlines()]))
+act =['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
 
+print (act)
 
-
+print (1)
 
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
@@ -42,28 +43,26 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     else:
         return it.result
 
-testfile = urllib.URLopener()            
+testfile = urllib.request.urlretrieve
 
 
-#Note: you need to create the uncropped folder first in order 
+#Note: you need to create the uncropped folder first in order
 #for this to work
-
+print (1)
 for a in act:
     name = a.split()[1].lower()
     i = 0
+    print(name)
     for line in open("faces_subset.txt"):
         if a in line:
             filename = name+str(i)+'.'+line.split()[4].split('.')[-1]
-            #A version without timeout (uncomment in case you need to 
+            #A version without timeout (uncomment in case you need to
             #unsupress exceptions, which timeout() does)
             #testfile.retrieve(line.split()[4], "uncropped/"+filename)
             #timeout is used to stop downloading images which take too long to download
-            timeout(testfile.retrieve, (line.split()[4], "uncropped/"+filename), {}, 30)
+            timeout(testfile, (line.split()[4], "uncropped/"+filename), {}, 30)
             if not os.path.isfile("uncropped/"+filename):
                 continue
 
-            
-            print filename
+            print (filename)
             i += 1
-    
-    
