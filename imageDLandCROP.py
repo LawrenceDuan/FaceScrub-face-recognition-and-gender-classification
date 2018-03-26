@@ -12,13 +12,7 @@ import os
 from scipy.ndimage import filters
 import urllib
 
-
 act =['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
-
-print (act)
-
-print (1)
-
 
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     '''From:
@@ -43,16 +37,28 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     else:
         return it.result
 
-testfile = urllib.request.urlretrieve
+def rgb2gray(rgb):
+    '''Return the grayscale version of the RGB image rgb as a 2D numpy array
+    whose range is 0..1
+    Arguments:
+    rgb -- an RGB image, represented as a numpy array of size n x m x 3. The
+    range of the values is 0..255
+    '''
+    r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
+    gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
+    return gray / 255.
 
+def crop(filename, imageInfo):
+    im = imread("uncropped/" + filename)
+    im = rgb2gray(im)
+    [x1, y1, x2, y2] = np.array(imageInfo.split()[5].split(',')).astype(int)
+    im = im[y1:y2, x1:x2]
+    im = imresize(im, (32, 32))
+    imsave("cropped/"+filename, im, gray())
 
-#Note: you need to create the uncropped folder first in order
-#for this to work
-print (1)
 for a in act:
     name = a.split()[1].lower()
     i = 0
-    print(name)
     for line in open("faces_subset.txt"):
         if a in line:
             filename = name+str(i)+'.'+line.split()[4].split('.')[-1]
@@ -60,9 +66,13 @@ for a in act:
             #unsupress exceptions, which timeout() does)
             #testfile.retrieve(line.split()[4], "uncropped/"+filename)
             #timeout is used to stop downloading images which take too long to download
-            timeout(testfile, (line.split()[4], "uncropped/"+filename), {}, 30)
+            timeout(urllib.request.urlretrieve, (line.split()[4], "uncropped/"+filename), {}, 30)
             if not os.path.isfile("uncropped/"+filename):
                 continue
-
-            print (filename)
             i += 1
+            try:
+                crop(filename, line)
+            except:
+                print("File " + filename + " cannot be opened!")
+                continue
+            print (filename)
