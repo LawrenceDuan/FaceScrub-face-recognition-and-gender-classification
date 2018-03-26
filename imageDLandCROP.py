@@ -12,8 +12,6 @@ import os
 from scipy.ndimage import filters
 import urllib
 
-act =['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
-
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     '''From:
     http://code.activestate.com/recipes/473878-timeout-function-using-threading/'''
@@ -56,23 +54,25 @@ def crop(filename, imageInfo):
     im = imresize(im, (32, 32))
     imsave("cropped/"+filename, im, gray())
 
-for a in act:
-    name = a.split()[1].lower()
-    i = 0
-    for line in open("faces_subset.txt"):
-        if a in line:
-            filename = name+str(i)+'.'+line.split()[4].split('.')[-1]
-            #A version without timeout (uncomment in case you need to
-            #unsupress exceptions, which timeout() does)
-            #testfile.retrieve(line.split()[4], "uncropped/"+filename)
-            #timeout is used to stop downloading images which take too long to download
-            timeout(urllib.request.urlretrieve, (line.split()[4], "uncropped/"+filename), {}, 30)
-            if not os.path.isfile("uncropped/"+filename):
-                continue
-            i += 1
-            try:
-                crop(filename, line)
-            except:
-                print("File " + filename + " cannot be opened!")
-                continue
-            print (filename)
+if __name__ == "__main__":
+    act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
+    for a in act:
+        name = a.split()[1].lower()
+        i = 0
+        for line in open("faces_subset.txt"):
+            if a in line:
+                filename = name+str(i)+'.'+line.split()[4].split('.')[-1]
+                #A version without timeout (uncomment in case you need to
+                #unsupress exceptions, which timeout() does)
+                #testfile.retrieve(line.split()[4], "uncropped/"+filename)
+                #timeout is used to stop downloading images which take too long to download
+                timeout(urllib.request.urlretrieve, (line.split()[4], "uncropped/"+filename), {}, 30)
+                if not os.path.isfile("uncropped/"+filename):
+                    continue
+                i += 1
+                try:
+                    crop(filename, line)
+                except:
+                    print("File " + filename + " cannot be opened!")
+                    continue
+                print (filename)
