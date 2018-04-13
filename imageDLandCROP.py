@@ -54,8 +54,7 @@ def crop(filename, imageInfo):
     im = imresize(im, (32, 32))
     imsave("cropped/"+filename, im, gray())
 
-if __name__ == "__main__":
-    act = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
+def DLandCROP(act):
     for a in act:
         name = a.split()[1].lower()
         i = 0
