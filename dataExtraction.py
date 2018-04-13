@@ -2,7 +2,14 @@ from scipy.misc import imread
 import numpy as np
 np.random.seed(0)
 
+
 def prepare_training_data(data, required_actor_list):
+    '''
+    Extract required image data from overall data set
+    :param data: overall data set
+    :param required_actor_list: required actors' indexes in actor list
+    :return: required image features and targets
+    '''
     x_train = np.ones([1,data[0][0].shape[0]])
     y_train = np.array([[1]*len(data[0])])
     for i in range(len(required_actor_list)):
