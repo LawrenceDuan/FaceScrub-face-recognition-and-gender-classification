@@ -6,6 +6,7 @@ from numpy.linalg import norm
 
 def quadratic_cost_function(x, y, theta):
     '''
+    Quadratic cost function
     :param x: features
     :param y: targets
     :param theta: parameter theta
@@ -19,6 +20,7 @@ def quadratic_cost_function(x, y, theta):
 
 def derivative_quadratic_cost_function(x, y, theta):
     '''
+    Derivative of quadratic cost function
     :param x: features
     :param y: targets
     :param theta: parameter theta
@@ -27,12 +29,33 @@ def derivative_quadratic_cost_function(x, y, theta):
     return 2 * np.sum((np.dot(x, theta) - y) * x.T, axis=1)
 
 
-def check(f, x, y, theta, h):
+def gradient_check(f, x, y, theta, h):
+    '''
+    Check the accuracy of the derivative of quadratic cost function
+    :param f: cost function
+    :param x: features
+    :param y: targets
+    :param theta: parameter theta
+    :param h: tiny variance
+    :return: gradient
+    '''
     theta1 = theta.copy()
     theta[0] = theta[0] + h
     return (f(x, y, theta) - f(x, y, theta1)) / h
 
 def gradient_descent(f, gradf, x, y, init_t, alpha, EPS, max_iter):
+    '''
+    Processing gradient descent to converge the best theta(s)
+    :param f: cost function
+    :param gradf: derivative of cost function
+    :param x: features
+    :param y: targets
+    :param init_t: the initial theta(s)
+    :param alpha: learning rate
+    :param EPS: epsilon
+    :param max_iter: maximum iteration
+    :return: converged theta(s), cost, no. of iteration processed
+    '''
     prev_t = init_t - 10 * EPS
     t = init_t.copy()
     iter = 0
