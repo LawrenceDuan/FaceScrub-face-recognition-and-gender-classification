@@ -9,6 +9,10 @@ actor = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill
 
 
 def get_parser():
+    '''
+    Get command line input arguments
+    :return: parser
+    '''
     # Get parser for command line arguments.
     parser = argparse.ArgumentParser(description="Face Scrub")
     parser.add_argument("-n",
@@ -16,21 +20,33 @@ def get_parser():
                         dest="number")
     return parser
 
-# Data preparation
-# To run the file, you need an empty uncropped and an empty cropped folder
+
 def part0():
+    '''
+    Data preparation
+    To run the file, you need an empty uncropped and an empty cropped folder
+    :return: void
+    '''
     imageDLandCROP.DLandCROP(actor)
 
-# Split Dataset
-# Split the data into training, validation and test sets
+
 def part2():
+    '''
+    Split Dataset
+    Split the data into training, validation and test sets
+    :return: im_data_training, im_data_validation, im_data_testing
+    '''
     im_data = seprateDataset.read(actor, 'cropped/')
     im_data_training, im_data_validation, im_data_testing = seprateDataset.split(actor, im_data, 70, 10, 10)
     return im_data_training, im_data_validation, im_data_testing
 
-# Baldwin vs. Carell classification
-# Build a classifier to distinguish pictures of Alec Baldwin from pictures of Steve Carell
+
 def part3():
+    '''
+    Baldwin vs. Carell classification
+    Build a classifier to distinguish pictures of Alec Baldwin from pictures of Steve Carell
+    :return: void
+    '''
     # Get training data, validation data and testing data from part2
     im_data_training, im_data_validation, im_data_testing = part2()
     # Split out training data and label of Baldwin and Carell
