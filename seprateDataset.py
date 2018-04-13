@@ -4,6 +4,12 @@ import numpy as np
 
 
 def read(actor, directory_string):
+    '''
+    Read in image stored in local directory
+    :param actor: list of actors' names want
+    :param directory_string: the string of the local directory
+    :return: image data
+    '''
     directory = os.fsencode(directory_string)
     actor_list = actor
 
@@ -24,6 +30,15 @@ def read(actor, directory_string):
 
 
 def split(actor, im_data, train_num, valid_num, test_num):
+    '''
+    Split all image data into user set training set, validation set and testing set
+    :param actor: list of actors' names
+    :param im_data: image data
+    :param train_num: no. of training data
+    :param valid_num: no. of validaiton data
+    :param test_num: no. of testing data
+    :return:
+    '''
     im_data_training = []
     im_data_validation = []
     im_data_testing = []
