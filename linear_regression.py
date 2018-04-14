@@ -12,9 +12,6 @@ def quadratic_cost_function(x, y, theta):
     :param theta: parameter theta
     :return: cost
     '''
-    # print (x.shape, y.shape, theta.shape)
-    # print(np.dot(x, theta.T))
-    # print(np.dot(x, theta.T) - y.T)
     return np.sum((np.dot(x, theta) - y)**2)
 
 
@@ -43,6 +40,7 @@ def gradient_check(f, x, y, theta, h):
     theta[0] = theta[0] + h
     return (f(x, y, theta) - f(x, y, theta1)) / h
 
+
 def gradient_descent(f, gradf, x, y, init_t, alpha, EPS, max_iter):
     '''
     Processing gradient descent to converge the best theta(s)
@@ -65,7 +63,7 @@ def gradient_descent(f, gradf, x, y, init_t, alpha, EPS, max_iter):
         prev_t = t.copy()
         t -= alpha * gradf(x, y, t)
         cost = f(x, y, t)
-        c = check(quadratic_cost_function, x, y, t, 1e-10)
+        c = gradient_check(quadratic_cost_function, x, y, t, 1e-10)
         print(iter, gradf(x, y, t), c, cost)
         iter += 1
     return t, cost, iter
