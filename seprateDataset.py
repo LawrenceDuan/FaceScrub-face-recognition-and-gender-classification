@@ -1,7 +1,7 @@
-from pylab import *
 import os
 from scipy.misc import imread
 import numpy as np
+
 
 def read(actor, directory_string):
     directory = os.fsencode(directory_string)
@@ -21,6 +21,7 @@ def read(actor, directory_string):
                 if actor_lastName in filename:
                     im_data[i].append(im.flatten())
     return im_data
+
 
 def split(actor, im_data, train_num, valid_num, test_num):
     im_data_training = []

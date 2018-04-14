@@ -1,21 +1,16 @@
-
-from pylab import *
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.cbook as cbook
-import random
-import time
 from scipy.misc import imread
 from scipy.misc import imresize
-import matplotlib.image as mpimg
 import os
-from scipy.ndimage import filters
 import urllib
 
+
 def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
-    '''From:
-    http://code.activestate.com/recipes/473878-timeout-function-using-threading/'''
+    '''
+    From:http://code.activestate.com/recipes/473878-timeout-function-using-threading/
+    '''
     import threading
+
     class InterruptableThread(threading.Thread):
         def __init__(self):
             threading.Thread.__init__(self)
@@ -35,6 +30,7 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
     else:
         return it.result
 
+
 def rgb2gray(rgb):
     '''Return the grayscale version of the RGB image rgb as a 2D numpy array
     whose range is 0..1
@@ -46,6 +42,7 @@ def rgb2gray(rgb):
     gray = 0.2989 * r + 0.5870 * g + 0.1140 * b
     return gray / 255.
 
+
 def crop(filename, imageInfo):
     im = imread("uncropped/" + filename)
     im = rgb2gray(im)
@@ -53,6 +50,7 @@ def crop(filename, imageInfo):
     im = im[y1:y2, x1:x2]
     im = imresize(im, (32, 32))
     imsave("cropped/"+filename, im, gray())
+
 
 def DLandCROP(act):
     for a in act:
