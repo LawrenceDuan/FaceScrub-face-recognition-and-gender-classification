@@ -4,6 +4,7 @@ import seprateDataset
 import dataExtraction
 import linear_regression as lr
 import numpy as np
+from matplotlib.pyplot import *
 from scipy.misc import imread
 actor = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
 
@@ -45,16 +46,39 @@ def part3():
     '''
     Baldwin vs. Carell classification
     Build a classifier to distinguish pictures of Alec Baldwin from pictures of Steve Carell
-    :return: void
+    :return: theta
     '''
     # Get training data, validation data and testing data from part2
     im_data_training, im_data_validation, im_data_testing = part2()
     # Split out training data and label of Baldwin and Carell
     x_train, y_train = dataExtraction.prepare_training_data(im_data_training, [3,5])
 
-    #
+    # Theta initialization
     theta0 = np.ones(1024) * 0.01
-    theta, cost, iter = lr.gradient_descent(lr.quadratic_cost_function, lr.derivative_quadratic_cost_function, x_train, y_train, theta0, 1e-6, 1e-5, 30000)
+    # theta0 = np.ones(1024) * 0.5
+    theta, costs, iters = lr.gradient_descent(lr.quadratic_cost_function, lr.derivative_quadratic_cost_function, x_train, y_train, theta0, 1e-5, 1e-6, 500)
+    # theta, costs, iters = lr.gradient_descent(lr.quadratic_cost_function, lr.derivative_quadratic_cost_function, x_train, y_train, theta0, 1e-5, 1e-6, 5000)
+    # theta, costs, iters = lr.gradient_descent(lr.quadratic_cost_function, lr.derivative_quadratic_cost_function, x_train, y_train, theta0, 1e-5, 1e-6, 50000)
+    return theta, iters
+    # figure(1)
+    # plot(iters, costs)
+    # xlabel('iters')
+    # ylabel('costs')
+    # show()
+    # print(costs)
+    # print(iters)
+
+
+def part41():
+    '''
+
+    :return:
+    '''
+    theta, iters = part3()
+    new_theta = np.reshape(theta, (32, 32))
+    print(iters[len(iters)-1])
+    imshow(new_theta, cmap="RdBu", interpolation="spline16")
+    show()
 
 
 if __name__ == "__main__":
@@ -66,7 +90,8 @@ if __name__ == "__main__":
         #1: part1,
         2: part2,
         3: part3,
-        #4: part4,
+        41: part41,
+        # 42: part42,
         #5: part5,
         #6: part6,
         #7: part7,
