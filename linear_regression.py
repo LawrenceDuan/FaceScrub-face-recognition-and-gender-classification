@@ -69,3 +69,13 @@ def gradient_descent(f, gradf, x, y, init_t, alpha, EPS, max_iter):
         iters.append(iter)
         iter += 1
     return t, costs, iters
+
+
+def hypothesis(theta, x):
+    '''
+    Hypothesis function
+    :param theta: Vector of theta values
+    :param x: Matrix of image data
+    :return: Classify result
+    '''
+    return np.dot(x, theta)
