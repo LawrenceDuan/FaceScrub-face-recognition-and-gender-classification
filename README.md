@@ -49,7 +49,7 @@ In Part 3, you used the hypothesis function hθ(x)=θ0+θ1x1+...+θnxn. If (x1,.
 
 The images could look as follows.
 
-![alt text][https://github.com/LawrenceDuan/FaceScrub-face-recognition-and-gender-classification/blob/master/readme1.png]
+![alt text][https://raw.githubusercontent.com/LawrenceDuan/FaceScrub-face-recognition-and-gender-classification/master/readme1.png]
 ![alt text][https://github.com/LawrenceDuan/FaceScrub-face-recognition-and-gender-classification/blob/master/readme2.png]
  
 
