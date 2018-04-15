@@ -135,6 +135,13 @@ def part4():
 
 
 def part5(alpha, EPS, max_iters):
+    '''
+    Plot the performance of the classifiers on the training and validation sets vs the size of the training set.
+    :param alpha: alpha
+    :param EPS: epsilon
+    :param max_iters: maximum iterations
+    :return: void
+    '''
     i = 0
     accuracy_list = []
     no_of_images = [10, 20, 30, 40, 50, 60, 70]
