@@ -1,6 +1,12 @@
 
 
 def accuracy(y_valid, y_hypothesis):
+    '''
+    Compute classifier accuracy.
+    :param y_valid: validation set labels.
+    :param y_hypothesis: hypothesis set labels
+    :return: accuracy in %
+    '''
     # Compute accuracy
     correct_count = 0
     for i in range(len(y_valid)):
