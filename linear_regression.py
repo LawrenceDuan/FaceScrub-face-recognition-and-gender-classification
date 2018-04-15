@@ -57,13 +57,15 @@ def gradient_descent(f, gradf, x, y, init_t, alpha, EPS, max_iter):
     prev_t = init_t - 10 * EPS
     t = init_t.copy()
     iter = 0
-    cost = 0
+    costs = []
+    iters = []
 
     while norm(t - prev_t) > EPS and iter < max_iter:
         prev_t = t.copy()
         t -= alpha * gradf(x, y, t)
         cost = f(x, y, t)
         c = gradient_check(quadratic_cost_function, x, y, t, 1e-10)
-        print(iter, gradf(x, y, t), c, cost)
+        costs.append(cost)
+        iters.append(iter)
         iter += 1
-    return t, cost, iter
+    return t, costs, iters
