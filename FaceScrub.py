@@ -228,7 +228,14 @@ def part6d():
         print(finite_difference1, finite_difference2, finite_difference3, traditional_gradient[p, q])
 
 
-def part7():
+def part7(alpha, EPS, max_iters):
+    '''
+    Plot the performance of the classifiers on the training and validation sets vs the size of the training set.
+    :param alpha: alpha
+    :param EPS: epsilon
+    :param max_iters: maximum iterations
+    :return: void
+    '''
     # Get training data, validation data and testing data from part2
     im_data_training, im_data_validation, im_data_testing = part2()
     # Get required x_train and prepare labels for training data
@@ -242,6 +249,19 @@ def part7():
 
     # Train classifiers
     theta, costs, iters = lr.gradient_descent(lr.new_quadratic_cost_function, lr.new_derivative_quadratic_cost_function, x_train, y_train, theta0, alpha, EPS, max_iters)
+
+
+    # Performance on training set
+    y_hypothesis = lr.hypothesis(theta, x_train)
+    accuracy = accuracy_compute.accuracy_2(y_train, y_hypothesis)
+    print(accuracy)
+
+    # Performance on validation set
+    x_valid, y_valid = dataExtraction.prepare_training_data_label_by_actor_order_2(im_data_validation, [0, 1, 2, 3, 4, 5], 10)
+    x_valid = np.concatenate((x_valid, np.ones([x_valid.shape[0], 1])), axis=1) / 255
+    y_hypothesis = lr.hypothesis(theta, x_valid)
+    accuracy = accuracy_compute.accuracy_2(y_valid, y_hypothesis)
+    print(accuracy)
 
 
 if __name__ == "__main__":
@@ -267,6 +287,8 @@ if __name__ == "__main__":
     if func is part3:
         func(float(args.alpha), float(args.EPS), int(args.iteration))
     elif func is part5:
+        func(float(args.alpha), float(args.EPS), int(args.iteration))
+    elif func is part7:
         func(float(args.alpha), float(args.EPS), int(args.iteration))
     else:
         func()
