@@ -25,6 +25,29 @@ def prepare_training_data_label_by_actor_order(data, required_actor_list, traini
     return x_train, y_train[0]
 
 
+def prepare_training_data_label_by_actor_order_2(data, required_actor_list, training_data_size):
+    '''
+    Extract required image data from overall data set
+    :param data: overall data set
+    :param required_actor_list: required actors' indexes in actor list
+    :param training_data_size: required number of images for each actor
+    :return: required image features and targets
+    '''
+    x_train = np.ones([1,data[0][0].shape[0]])
+    y_train = np.zeros([training_data_size * len(required_actor_list), len(required_actor_list)])
+    for i in range(len(required_actor_list)):
+        if i is 0:
+            x_train = np.vstack((x_train, data[required_actor_list[i]][:training_data_size]))
+            x_train = np.delete(x_train, 0, axis=0)
+            for j in range(training_data_size):
+                y_train[j, i] = 1
+        else:
+            x_train = np.vstack((x_train, data[required_actor_list[i]][:training_data_size]))
+            for j in range(training_data_size*i, training_data_size*(i+1)):
+                y_train[j, i] = 1
+    return x_train, y_train
+
+
 def prepare_training_data_label_by_gender(data, required_actor_list, gender_list, training_data_size):
     '''
     Extract required image data from overall data set
