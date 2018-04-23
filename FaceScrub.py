@@ -8,6 +8,7 @@ import numpy as np
 from matplotlib.pyplot import *
 from scipy.misc import imread
 actor = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
+np.random.seed(0)
 
 
 def get_parser():
@@ -197,13 +198,50 @@ def part6b():
     imshow(part6b)
     show()
 
-def part6c():
-     
+
+def part6d():
+    '''
+    Compare gradient function and finite difference approximation
+    :return: void
+    '''
+    # Get training data, validation data and testing data from part2
+    im_data_training, im_data_validation, im_data_testing = part2()
+    # Get required x_train and prepare labels for training data
+    x_train, y_train = dataExtraction.prepare_training_data_label_by_actor_order_2(im_data_training, [0, 1, 2, 3, 4, 5], 70)
+    # Add constant values for each image data in x_train
+    x_train = np.concatenate((x_train, np.ones([x_train.shape[0], 1])), axis=1) / 255
+
+    # Prepare for calculating gradient in two ways
+    theta0 = np.random.rand(1025, 6)
+    # Randomly select 5 coordinates
+    for i in range(5):
+        # Traditional way of calculating gradient
+        traditional_gradient = lr.new_derivative_quadratic_cost_function(x_train, y_train, theta0)
+
+        # Using finite difference to represent gradient
+        p = np.random.randint(0, 1025)
+        q = np.random.randint(0, 6)
+        finite_difference1 = lr.finite_difference(lr.new_quadratic_cost_function, x_train, y_train, p, q, theta0, 1e-8)
+        finite_difference2 = lr.finite_difference(lr.new_quadratic_cost_function, x_train, y_train, p, q, theta0, 1e-9)
+        finite_difference3 = lr.finite_difference(lr.new_quadratic_cost_function, x_train, y_train, p, q, theta0, 1e-10)
+
+        print(finite_difference1, finite_difference2, finite_difference3, traditional_gradient[p, q])
 
 
-# def part6d():
-#     # part6d
+def part7():
+    # Get training data, validation data and testing data from part2
+    im_data_training, im_data_validation, im_data_testing = part2()
+    # Get required x_train and prepare labels for training data
+    x_train, y_train = dataExtraction.prepare_training_data_label_by_actor_order_2(im_data_training, [0, 1, 2, 3, 4, 5],
+                                                                                   70)
+    # Add constant values for each image data in x_train
+    x_train = np.concatenate((x_train, np.ones([x_train.shape[0], 1])), axis=1) / 255
 
+    # Prepare for calculating gradient in two ways
+    theta0 = np.random.rand(1025, 6)
+
+    # Train classifiers
+    theta, costs, iters = lr.gradient_descent(lr.new_quadratic_cost_function, lr.new_derivative_quadratic_cost_function, x_train, y_train, theta0, alpha, EPS, max_iters)
 
 
 if __name__ == "__main__":
@@ -219,9 +257,8 @@ if __name__ == "__main__":
         5: part5,
         61: part6a,
         62: part6b,
-        63: part6c,
-        # 64: part6d,
-        #7: part7,
+        64: part6d,
+        7: part7,
         #8: part8,
     }
     # Get the function from switcher dictionary
