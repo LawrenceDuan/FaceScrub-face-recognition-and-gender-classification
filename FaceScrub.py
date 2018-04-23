@@ -178,6 +178,34 @@ def part5(alpha, EPS, max_iters):
     show()
 
 
+def part6a():
+    '''
+    Show part6a handwritten functions
+    :return: void
+    '''
+    part6a = imread("part6a.jpg")
+    imshow(part6a)
+    show()
+
+
+def part6b():
+    '''
+    Show part6b handwritten functions
+    :return: void
+    '''
+    part6b = imread("part6b.jpg")
+    imshow(part6b)
+    show()
+
+def part6c():
+     
+
+
+# def part6d():
+#     # part6d
+
+
+
 if __name__ == "__main__":
     parser = get_parser()
     args = parser.parse_args()
@@ -189,7 +217,10 @@ if __name__ == "__main__":
         3: part3,
         4: part4,
         5: part5,
-        #6: part6,
+        61: part6a,
+        62: part6b,
+        63: part6c,
+        # 64: part6d,
         #7: part7,
         #8: part8,
     }
