@@ -37,7 +37,7 @@ def accuracy_2(y_valid, y_hypothesis):
         for j in range(y_valid.shape[1]):
             if y_hypothesis[i][j] <= 0.5 and y_valid[i][j] == 0: correct_count = correct_count + 1
             if y_hypothesis[i][j] > 0.5 and y_valid[i][j] == 1: correct_count = correct_count + 1
-    accuracy = correct_count / y_valid.shape[0] * y_valid.shape[1]
+    accuracy = correct_count / y_valid.shape[0] * 6
     # print(y_valid)
     # print(y_hypothesis)
     return accuracy
