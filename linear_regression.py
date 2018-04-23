@@ -7,10 +7,10 @@ from numpy.linalg import norm
 def quadratic_cost_function(x, y, theta):
     '''
     Quadratic cost function
-    :param x: features
-    :param y: targets
-    :param theta: parameter theta
-    :return: cost
+    :param x: features. m * 1025
+    :param y: targets. m * 1
+    :param theta: parameter theta. 1025 * 1
+    :return: cost. 1 * 1
     '''
     return np.sum((np.dot(x, theta) - y)**2)
 
@@ -18,10 +18,10 @@ def quadratic_cost_function(x, y, theta):
 def derivative_quadratic_cost_function(x, y, theta):
     '''
     Derivative of quadratic cost function
-    :param x: features
-    :param y: targets
-    :param theta: parameter theta
-    :return: gradient
+    :param x: features. m * 1025
+    :param y: targets. m * 1
+    :param theta: parameter theta. 1025 * 1
+    :return: gradient. 1025 * 1
     '''
     return 2 * np.sum((np.dot(x, theta) - y) * x.T, axis=1)
 
@@ -79,3 +79,41 @@ def hypothesis(theta, x):
     :return: Classify result
     '''
     return np.dot(x, theta)
+
+
+def new_quadratic_cost_function(x, y, theta):
+    '''
+    New quadratic cost function
+    :param x: features. m * 1025
+    :param y: targets. m * k
+    :param theta: parameter theta. 1025 * k
+    :param k: the number of possible labels
+    :return: cost. 1 * 1
+    '''
+    return np.sum((np.dot(x, theta) - y) ** 2)
+
+
+def new_derivative_quadratic_cost_function(x, y, theta):
+    '''
+    Derivative of quadratic cost function
+    :param x: features. m * 1025
+    :param y: targets. m * k
+    :param theta: parameter theta. 1025 * k
+    :return: gradient. 1025 * k
+    '''
+    return (2 * np.dot((np.dot(x, theta) - y).T, x)).T
+
+
+def finite_difference(f, x, y, p, q, theta, h):
+    '''
+    Check the accuracy of the derivative of quadratic cost function
+    :param f: cost function
+    :param x: features
+    :param y: targets
+    :param theta: parameter theta
+    :param h: tiny variance
+    :return: gradient
+    '''
+    theta1 = theta.copy()
+    theta[p, q] = theta[p, q] + h
+    return (f(x, y, theta) - f(x, y, theta1)) / h
