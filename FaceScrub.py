@@ -6,6 +6,7 @@ import linear_regression as lr
 import accuracy_compute
 import numpy as np
 from matplotlib.pyplot import *
+import matplotlib.pyplot as plt
 from scipy.misc import imread
 actor = ['Lorraine Bracco', 'Peri Gilpin', 'Angie Harmon', 'Alec Baldwin', 'Bill Hader', 'Steve Carell']
 np.random.seed(0)
@@ -245,7 +246,7 @@ def part7(alpha, EPS, max_iters):
     x_train = np.concatenate((x_train, np.ones([x_train.shape[0], 1])), axis=1) / 255
 
     # Prepare for calculating gradient in two ways
-    theta0 = np.random.rand(1025, 6)
+    theta0 = np.ones((1025, 6)) * 0.01
 
     # Train classifiers
     theta, costs, iters = lr.gradient_descent(lr.new_quadratic_cost_function, lr.new_derivative_quadratic_cost_function, x_train, y_train, theta0, alpha, EPS, max_iters)
@@ -263,6 +264,27 @@ def part7(alpha, EPS, max_iters):
     accuracy = accuracy_compute.accuracy_2(y_valid, y_hypothesis)
     print(accuracy)
 
+    return theta
+
+
+def part8(alpha, EPS, max_iters):
+    '''
+    Plot the performance of the classifiers on the training and validation sets vs the size of the training set.
+    :param alpha: alpha
+    :param EPS: epsilon
+    :param max_iters: maximum iterations
+    :return: void
+    '''
+    theta = part7(alpha, EPS, max_iters)
+    fig = plt.figure()
+    for i in range(theta[1:, ].shape[1]):
+        a = fig.add_subplot(3, 2, i + 1)
+        im = theta[1:, ][:, i].reshape((32, 32))  # remove the parameters for bias
+        imgplot = plt.imshow(im, cmap="RdBu", interpolation='spline16')
+        a.set_title(actor[i])
+
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
     parser = get_parser()
@@ -279,7 +301,7 @@ if __name__ == "__main__":
         62: part6b,
         64: part6d,
         7: part7,
-        #8: part8,
+        8: part8,
     }
     # Get the function from switcher dictionary
     func = switcher.get(int(args.number), lambda: "Invalid number")
@@ -289,6 +311,8 @@ if __name__ == "__main__":
     elif func is part5:
         func(float(args.alpha), float(args.EPS), int(args.iteration))
     elif func is part7:
+        func(float(args.alpha), float(args.EPS), int(args.iteration))
+    elif func is part8:
         func(float(args.alpha), float(args.EPS), int(args.iteration))
     else:
         func()
